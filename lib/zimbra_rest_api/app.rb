@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/cookies'
 require 'sinatra/json'
+require 'logger'
 
 # Doc placeholder
 module ZimbraRestApi
