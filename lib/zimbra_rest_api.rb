@@ -17,6 +17,7 @@ module ZimbraRestApi
 
   class << self
     attr_accessor :zimbra_admin_user, :zimbra_admin_password
+    attr_accessor :api_id
     attr_reader :zimbra_soap_url
 
     def authenticate!
