@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'uuid', '~> 2.3'
   spec.add_dependency 'httpclient', '~> 2.6'
   spec.add_dependency 'sinatra-contrib', '~> 1.4'
-  spec.add_dependency 'zimbra-soap-api', "~> 0.0.7"
+  spec.add_dependency 'zimbra-soap-api', "~> 0.7"
 
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.0"
