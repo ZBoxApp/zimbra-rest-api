@@ -13,6 +13,8 @@ require_relative 'models/distribution_list'
 
 # Doc placeholder
 module ZimbraRestApi
+  autoload :App, 'zimbra_rest_api/app'
+
   class << self
     attr_accessor :zimbra_admin_user, :zimbra_admin_password
     attr_reader :zimbra_soap_url

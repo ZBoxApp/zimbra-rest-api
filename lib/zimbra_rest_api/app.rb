@@ -1,8 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/cookies'
 require 'sinatra/json'
-require 'pp'
-require File.expand_path '../lib/zimbra_rest_api.rb', __FILE__
 
 # Doc placeholder
 module ZimbraRestApi

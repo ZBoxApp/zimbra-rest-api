@@ -50,7 +50,7 @@ class ZimbraObjectTest < Minitest::Test
   def test_create_object_with_error_should_raise_with_error
     domain_name = ''
     params = {'name' => domain_name, 'zimbraSkinLogoURL' => 'http://itlinux.cl'}
-    exception = assert_raises(Zimbra::HandsoapErrors::SOAPFault) { Domain.create(params) }
+    exception = assert_raises(Zimbra::HandsoapErrors::SOAPFault) { ZimbraRestApi::Domain.create(params) }
     assert exception.message
   end
 

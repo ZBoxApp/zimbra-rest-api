@@ -1,8 +1,10 @@
 # Doc placeholder
-class Domain < ZimbraBase
+module ZimbraRestApi
+  class Domain < ZimbraBase
 
-  def count_accounts
-    zmobject.count_accounts
+    def count_accounts
+      zmobject.count_accounts
+    end
+
   end
-
 end

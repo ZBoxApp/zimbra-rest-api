@@ -9,14 +9,14 @@ class AccountModelTest < Minitest::Test
   end
 
   def test_find_should_search_by_id_if_id_passed
-    result = Account.find(@account.id)
+    result = ZimbraRestApi::Account.find(@account.id)
     assert_equal(@account.id, result.id)
   end
 
   def test_find_should_find_by_name_if_name_passed
-    result = Account.find('pbruna@itlinux.cl')
+    result = ZimbraRestApi::Account.find('pbruna@itlinux.cl')
     assert_equal(@account.id, result.id)
-    assert_equal(Account, result.class)
+    assert_equal(ZimbraRestApi::Account, result.class)
   end
 
 

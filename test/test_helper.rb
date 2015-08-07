@@ -2,8 +2,9 @@ ENV['RACK_ENV'] = 'test'
 require 'minitest/autorun'
 require 'minitest/reporters' # requires the gem
 require 'rack/test'
+require 'zimbra_rest_api'
 
-require File.expand_path '../../zimbra_rest_app.rb', __FILE__
+#require File.expand_path '../../app.rb', __FILE__
 
 # spec-like progress
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new

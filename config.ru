@@ -1,4 +1,6 @@
-require './zimbra_rest_app.rb'
+require 'bundler'
+Bundler.setup
+require 'zimbra_rest_api'
 
 ####### Configurarion Options ############################
 

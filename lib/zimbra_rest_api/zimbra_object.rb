@@ -88,6 +88,7 @@ module ZimbraRestApi
 
       def get_zimbra_object(object)
         object ||= self.is_a?(Class) ? name : self.class.name
+        object.gsub!(/ZimbraRestApi::/,'')
         "Zimbra::#{object.camelize}".constantize
       end
 

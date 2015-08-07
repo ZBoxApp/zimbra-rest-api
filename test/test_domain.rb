@@ -15,7 +15,7 @@ class DomainTest < Minitest::Test
   end
 
   def teardown
-    @tmp_domain = Domain.find('tmp.com')
+    @tmp_domain = ZimbraRestApi::Domain.find('tmp.com')
     @tmp_domain.delete if @tmp_domain
   end
 
@@ -109,7 +109,7 @@ class DomainTest < Minitest::Test
   def test_delete_domain_should_return_200_ok
     domain_name = Time.new.strftime('%Y%m%d%H%M%S') + '.com'
     params = {'name' => domain_name, 'zimbraSkinLogoURL' => 'http://itlinux.cl'}
-    domain = Domain.create(params)
+    domain = ZimbraRestApi::Domain.create(params)
     delete "/domains/#{domain.name}"
     assert_equal 200, last_response.status
   end

@@ -2,19 +2,19 @@ module ZimbraRestApi
   module Helpers
 
     def resource_index(resource, params = {})
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       json object.all(params)
     end
 
     def resource_show(resource, id)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       result = object.find(id)
       return json(result) if result
       status 404
     end
 
     def resource_create(resource, params)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       begin
         json object.create(params)
       rescue Zimbra::HandsoapErrors::SOAPFault => e
@@ -23,7 +23,7 @@ module ZimbraRestApi
     end
 
     def resource_update(resource, id, params)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       result = object.find(id)
       return status 404 if result.nil?
       begin
@@ -34,7 +34,7 @@ module ZimbraRestApi
     end
 
     def resource_delete(resource, id)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       result = object.find(id)
       return status 404 if result.nil?
       begin
@@ -46,7 +46,7 @@ module ZimbraRestApi
     end
 
     def resource_add_grant(resource, id, params)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       result = object.find(id)
       return status 404 if result.nil?
       begin
@@ -57,7 +57,7 @@ module ZimbraRestApi
     end
 
     def resource_revoke_grant(resource, id, params)
-      object = resource.camelize(true).constantize
+      object = object_factory(resource)
       result = object.find(id)
       return status 404 if result.nil?
       begin
@@ -65,6 +65,10 @@ module ZimbraRestApi
       rescue Exception => e
         json({ errors: [ e.message ]})
       end
+    end
+
+    def object_factory(resource)
+      "ZimbraRestApi::#{resource.camelize(true)}".constantize
     end
 
   end
