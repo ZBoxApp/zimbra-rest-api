@@ -1,1 +1,5 @@
 /envs.sh
+*.gem
+.bundle
+Gemfile.lock
+pkg/*

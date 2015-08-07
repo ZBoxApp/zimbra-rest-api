@@ -2,9 +2,9 @@ require './zimbra_rest_app.rb'
 
 ####### Configurarion Options ############################
 
-ZimbraRestAPI.zimbra_soap_url = ENV['zimbra_soap_url']
-ZimbraRestAPI.zimbra_admin_user = ENV['zimbra_admin_user']
-ZimbraRestAPI.zimbra_admin_password = ENV['zimbra_admin_password']
+ZimbraRestApi.zimbra_soap_url = ENV['zimbra_soap_url']
+ZimbraRestApi.zimbra_admin_user = ENV['zimbra_admin_user']
+ZimbraRestApi.zimbra_admin_password = ENV['zimbra_admin_password']
 
 ####### END CONFIGURATION ############################
 
@@ -12,8 +12,8 @@ ZimbraRestAPI.zimbra_admin_password = ENV['zimbra_admin_password']
 
 puts '------------------------------------------------'
 puts 'Starting server with the following configuration'
-puts "SOAP URL: #{ZimbraRestAPI.zimbra_soap_url}"
-puts "ADMIN USER: #{ZimbraRestAPI.zimbra_admin_user}"
+puts "SOAP URL: #{ZimbraRestApi.zimbra_soap_url}"
+puts "ADMIN USER: #{ZimbraRestApi.zimbra_admin_user}"
 puts "------------------------------------------------\n"
 
-run ZimbraRestApp
+run ZimbraRestApi::App

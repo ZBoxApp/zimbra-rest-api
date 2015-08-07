@@ -1,4 +1,4 @@
-module ZimbraRestAPI
+module ZimbraRestApi
 
   # Class placeholder
   module ZimbraObject

@@ -1,5 +1,5 @@
 class ZimbraBase
-  include ZimbraRestAPI::ZimbraObject
+  include ZimbraRestApi::ZimbraObject
 
   attr_accessor :zmobject
 

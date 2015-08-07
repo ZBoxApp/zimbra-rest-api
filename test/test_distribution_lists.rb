@@ -7,7 +7,7 @@ class DistributionListTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    ZimbraRestApp
+    ZimbraRestApi::App
   end
 
   def setup
@@ -83,8 +83,9 @@ class DistributionListTest < Minitest::Test
   end
 
   def test_update_dl_name_should_work
-    dl = Zimbra::DistributionList.create('tmplist1@zbox.cl')
-    put '/distribution_lists/tmplist1@zbox.cl/', {'name' => 'tmplist@zbox.cl'}
+    name = Time.new.strftime('%Y%m%d%H%M%S') + '@zbox.cl'
+    dl = Zimbra::DistributionList.create(name)
+    put "/distribution_lists/#{name}/", {'name' => 'tmplist@zbox.cl'}
     result = JSON.parse(last_response.body)
     assert_equal 'tmplist@zbox.cl', result['name']
   end

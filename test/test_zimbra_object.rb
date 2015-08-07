@@ -5,7 +5,7 @@ require 'pp'
 class ZimbraObjectTest < Minitest::Test
 
   ZimbraObject = Struct.new(:name) do
-    include ZimbraRestAPI::ZimbraObject
+    include ZimbraRestApi::ZimbraObject
   end
 
   def test_get_zimbra_object_should_return_a_zimbra_object

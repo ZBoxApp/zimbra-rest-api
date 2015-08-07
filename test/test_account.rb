@@ -8,7 +8,7 @@ class AccountTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
-    ZimbraRestApp
+    ZimbraRestApi::App
   end
 
   def setup

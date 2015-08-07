@@ -1,18 +1,18 @@
-GIT
-  remote: git://github.com/pbruna/ruby-zimbra.git
-  revision: 75e58b24f1216412ab5d33b5360f1cdf09a397c2
-  branch: master
+PATH
+  remote: .
   specs:
-    zimbra (0.0.7.9)
-      curb
-      handsoap
-      nokogiri
+    zimbra-rest-api (0.1.1)
+      httpclient (~> 2.6)
+      sinatra (~> 1.4)
+      sinatra-contrib (~> 1.4)
+      uuid (~> 2.3)
+      zimbra-soap-api (~> 0.0.7)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ansi (1.5.0)
-    backports (3.6.5)
+    backports (3.6.6)
     builder (3.2.2)
     coderay (1.1.0)
     curb (0.8.8)
@@ -58,17 +58,17 @@ GEM
     tilt (2.0.1)
     uuid (2.3.8)
       macaddr (~> 1.0)
+    zimbra-soap-api (0.0.7.9)
+      curb
+      handsoap
+      nokogiri
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  httpclient
-  minitest-reporters
-  pry
-  rack-test
-  rake
-  sinatra
-  sinatra-contrib
-  uuid
-  zimbra!
+  bundler (~> 1.9)
+  minitest-reporters (~> 1.0, >= 1.0.19)
+  pry (~> 0.10)
+  rake (~> 10.0)
+  zimbra-rest-api!

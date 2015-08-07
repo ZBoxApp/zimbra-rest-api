@@ -8,7 +8,7 @@ require File.expand_path '../../zimbra_rest_app.rb', __FILE__
 # spec-like progress
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-ZimbraRestAPI.zimbra_soap_url = ENV['zimbra_soap_url']
-ZimbraRestAPI.zimbra_admin_user = ENV['zimbra_admin_user']
-ZimbraRestAPI.zimbra_admin_password = ENV['zimbra_admin_password']
-ZimbraRestAPI.authenticate!
+ZimbraRestApi.zimbra_soap_url = ENV['zimbra_soap_url']
+ZimbraRestApi.zimbra_admin_user = ENV['zimbra_admin_user']
+ZimbraRestApi.zimbra_admin_password = ENV['zimbra_admin_password']
+ZimbraRestApi.authenticate!
