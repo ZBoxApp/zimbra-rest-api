@@ -123,6 +123,20 @@ module ZimbraRestApi
         return "(&#{result})" if query.keys.size > 1
         result
       end
+
+      def zimbra_attrs_to_load=(array)
+        klass_name = self.name.split(/::/)[1]
+        klass = "Zimbra::#{klass_name}".constantize
+        fail(ArgumentError, 'Must be an array') unless array.is_a?Array
+        klass.zimbra_attrs_to_load = array
+      end
+
+      def zimbra_attrs_to_load
+        klass_name = self.name.split(/::/)[1]
+        klass = "Zimbra::#{klass_name}".constantize
+        return [] if klass.zimbra_attrs_to_load.nil?
+        klass.zimbra_attrs_to_load
+      end
     end
   end
 end

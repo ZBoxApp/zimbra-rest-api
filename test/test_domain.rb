@@ -37,6 +37,12 @@ class DomainTest < Minitest::Test
     assert(result.first['name'].match(/com$/), 'Failed search')
   end
 
+  def test_domain_get_with_search_and_without_end_slash
+    get '/domains', zimbraDomainType: 'local', zimbraDomainName: '*.com'
+    result = JSON.parse(last_response.body)
+    assert(result.first['name'].match(/com$/), 'Failed search')
+  end
+
   def test_domain_get_with_name
     get '/domains/itlinux.cl/'
     assert_equal(@itlinux_domain.id, JSON.parse(last_response.body)['id'])
