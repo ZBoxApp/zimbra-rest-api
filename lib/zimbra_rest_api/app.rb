@@ -78,7 +78,8 @@ module ZimbraRestApi
     # Domain Distribution Lists
     get '/domains/:id/distribution_lists' do
       domain = Domain.find(params['id'])
-      distribution_lists = DistributionList.all(domain: domain.name)
+      query = request.params.merge({ domain: domain.name })
+      distribution_lists = DistributionList.all(query)
       json distribution_lists
     end
 

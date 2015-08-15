@@ -57,10 +57,11 @@ class DomainTest < Minitest::Test
   end
 
   def test_domain_distribution_list_nested_path
-    get '/domains/zbox.cl/distribution_lists'
+    get '/domains/customer.dev/distribution_lists'
     result = JSON.parse(last_response.body)
     assert result.first['zmobject'].match(/Zimbra::DistributionList/), 'Should be a domain'
-    assert result.first['name'].match(/zbox/), 'Should have the same domain'
+    assert result.first['name'].match(/customer/), 'Should have the same domain'
+    assert(result.size > 1)
   end
 
   def test_domain_accounts_nested_path
@@ -124,6 +125,15 @@ class DomainTest < Minitest::Test
     delete '/domains/zbox.cl'
     result = JSON.parse(last_response.body)
     assert result['errors'].any?
+  end
+
+  def test_search_should_work_with_nested_dl_path
+    get '/domains/customer.dev/distribution_lists', mail: '*restringida*'
+    result = JSON.parse(last_response.body)
+    assert_equal(1, result.size)
+    get '/domains/customer.dev/distribution_lists', mail: 'restringida@customer.dev'
+    result = JSON.parse(last_response.body)
+    assert_equal(1, result.size)
   end
 
 end
