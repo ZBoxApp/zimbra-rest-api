@@ -34,8 +34,15 @@ class DistributionListTest < Minitest::Test
     assert_equal(@dl.name, JSON.parse(last_response.body)['name'])
   end
 
+  def test_get_distribution_lists_should_return_domain_id
+    get "/distribution_lists/#{@dl.id}"
+    result = JSON.parse(last_response.body)
+    domain_name = @dl.name.split(/@/)[1]
+    assert_equal(domain_name, result['domain_id'])
+  end
+
   def test_distribution_lists_search
-    get '/distribution_lists/', zimbraMailForwardingAddress: '1@example.com'
+    get '/distribution_lists/', zimbraMailForwardingAddress: 'domain_admin@customer.dev'
     result = JSON.parse(last_response.body)
     assert(result.first['name'].match(/restringida/), 'Failed search')
   end
