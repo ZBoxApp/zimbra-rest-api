@@ -33,26 +33,32 @@ module ZimbraRestApi
         zmobject.delete
       end
 
-      def add_grant(attrs)
+      def acl_factory(attrs = {})
         fail ArgumentError.new('Hash expected') unless attrs.is_a?Hash
+        return if attrs.empty?
         attrs['grantee_class'] = Zimbra::ACL::TARGET_MAPPINGS[attrs['grantee_class']]
-        acl = Zimbra::ACL.new(grantee_name: attrs['grantee_name'],
+        Zimbra::ACL.new(grantee_name: attrs['grantee_name'],
                               grantee_class: attrs['grantee_class'],
                               name: attrs['name']
                               )
-        Zimbra::Directory::add_grant(self.zmobject, acl)
-        self.class.find(self.id)
       end
 
-      def revoke_grant(attrs)
-        fail ArgumentError.new('Hash expected') unless attrs.is_a?Hash
-        attrs['grantee_class'] = Zimbra::ACL::TARGET_MAPPINGS[attrs['grantee_class']]
-        acl = Zimbra::ACL.new(grantee_name: attrs['grantee_name'],
-                              grantee_class: attrs['grantee_class'],
-                              name: attrs['name']
-                              )
-        Zimbra::Directory::revoke_grant(self.zmobject, acl)
-        self.class.find(self.id)
+      def add_grant(grant)
+        acl = acl_factory(grant)
+        if Zimbra::Directory::add_grant(self.zmobject, acl)
+          self.class.find(self.id)
+        else
+          fail ZimbraRestApi::NotFound, "ZimbraRestApi::NotFound Grant #{acl.grantee_name}"
+        end
+      end
+
+      def revoke_grant(grant)
+        acl = acl_factory(grant)
+        if Zimbra::Directory::revoke_grant(self.zmobject, acl)
+          return self.class.find(self.id)
+        else
+          fail ZimbraRestApi::NotFound, "ZimbraRestApi::NotFound Grant #{acl.grantee_name}"
+        end
       end
 
     end
@@ -139,4 +145,7 @@ module ZimbraRestApi
       end
     end
   end
+
+  class NotFound < StandardError; end
+
 end

@@ -145,5 +145,16 @@ class DistributionListTest < Minitest::Test
     assert(result['acls'].size < original_acls_size)
   end
 
+  def test_add_grant_should_return_error
+    Zimbra::Directory.revoke_grant(@dl, @acl)
+    dl = Zimbra::DistributionList.find_by_name('restringida@zbox.cl')
+    original_acls_size = dl.acls.size
+    test_acl = {grantee_name: 'noexiste@xxxx.dev', grantee_class: 'usr', name: 'sendToDistList'}
+    post "/distribution_lists/#{dl.name}/grants/add", test_acl
+    result = JSON.parse(last_response.body)
+    assert(result['errors'])
+  end
+
+
 
 end
