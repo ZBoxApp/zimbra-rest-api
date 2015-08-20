@@ -5,9 +5,10 @@ module ZimbraRestApi
     attr_accessor :zmobject
 
     def initialize(zmobject)
+      @zmobject = zmobject
+      @zmobject.acls # Force loading
       instance_variables = get_instance_values(zmobject)
       set_instance_variables(instance_variables)
-      @zmobject = zmobject
     end
 
     private
