@@ -109,7 +109,7 @@ module ZimbraRestApi
 
       def build_search_hash(query = {})
         {
-          domain: query.delete(:domain),
+          domain: query.delete('domain') || query.delete(:domain),
           sorting: get_sort_ops(query),
           query: hash_to_ldap(query)
         }

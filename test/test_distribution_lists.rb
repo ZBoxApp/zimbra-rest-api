@@ -47,6 +47,24 @@ class DistributionListTest < Minitest::Test
     assert(result.first['name'].match(/restringida/), 'Failed search')
   end
 
+  def test_distribution_lists_search_with_domain
+    get '/distribution_lists/', domain: 'xxxx.dev'
+    result = JSON.parse(last_response.body)
+    assert(result.empty?, 'should be empty')
+  end
+
+  def test_distribution_lists_search_with_name_and_domain_false
+    get '/distribution_lists/', mail: 'restringida@zbox.cl', domain: 'xxxx.dev'
+    result = JSON.parse(last_response.body)
+    assert(result.empty?, 'should be empty')
+  end
+
+  def test_distribution_lists_search_with_name_and_domain
+    get '/distribution_lists/', mail: 'restringida@zbox.cl', domain: 'zbox.cl'
+    result = JSON.parse(last_response.body)
+    assert(result.any?, 'should not be empty')
+  end
+
   def test_distribution_lists_get_with_name
     get "/distribution_lists/#{@dl.name}"
     assert_equal(@dl.id, JSON.parse(last_response.body)['id'])

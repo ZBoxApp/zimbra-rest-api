@@ -3,7 +3,8 @@ module ZimbraRestApi
 
     def resource_index(resource, params = {})
       object = object_factory(resource)
-      json object.all(params)
+      result = object.all(params)
+      result.nil? ? json({}) : json(result)
     end
 
     def resource_show(resource, id)
