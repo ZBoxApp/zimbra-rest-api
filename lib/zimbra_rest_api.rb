@@ -10,6 +10,7 @@ require_relative 'models/zimbra_base'
 require_relative 'models/domain'
 require_relative 'models/account'
 require_relative 'models/distribution_list'
+require_relative 'models/cos'
 
 # Doc placeholder
 module ZimbraRestApi

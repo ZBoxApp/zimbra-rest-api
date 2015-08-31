@@ -12,4 +12,9 @@ class String
     Object.const_get self
   end
 
+  def plural
+    return self if self.downcase == 'cos'
+    self.to_s + 's'
+  end
+
 end
