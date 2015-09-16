@@ -124,7 +124,11 @@ module ZimbraRestApi
 
       def hash_to_ldap(query = {})
         raw_filter = query.delete('raw_ldap_filter').to_s
-        result = query.map { |k, v| "(#{k}=#{v})" }.join('')
+        if query.delete('inverse_filter')
+          result = query.map { |k, v| "(!(#{k}=#{v}))" }.join('')
+        else
+          result = query.map { |k, v| "(#{k}=#{v})" }.join('')
+        end
         raw_filter << "(&#{result})"
         raw_filter
       end
