@@ -123,11 +123,10 @@ module ZimbraRestApi
       end
 
       def hash_to_ldap(query = {})
-        return query[:raw_ldap_filter] unless query[:raw_ldap_filter].nil?
-        return '' if query.keys.size < 0
+        raw_filter = query.delete('raw_ldap_filter').to_s
         result = query.map { |k, v| "(#{k}=#{v})" }.join('')
-        return "(&#{result})" if query.keys.size > 1
-        result
+        raw_filter << "(&#{result})"
+        raw_filter
       end
 
       def zimbra_attrs_to_load=(array)

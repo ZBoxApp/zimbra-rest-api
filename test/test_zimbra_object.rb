@@ -26,7 +26,7 @@ class ZimbraObjectTest < Minitest::Test
 
   def test_hash_to_ldap_should_return_a_ldap_query_string_with_only_one
     hash = { email: 'pbruna@itlinux.cl' }
-    ldap_query = '(email=pbruna@itlinux.cl)'
+    ldap_query = '(&(email=pbruna@itlinux.cl))'
     assert_equal(ldap_query, ZimbraObject.hash_to_ldap(hash))
   end
 

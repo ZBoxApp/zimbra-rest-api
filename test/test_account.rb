@@ -55,6 +55,13 @@ class AccountTest < Minitest::Test
     assert result.size > 25, 'result should be > 25'
   end
 
+  def test_raw_search_should_join_with_and_to_normal_query
+    ldap_filter = '(&(|(zimbraMailDeliveryAddress=*@zboxapp.dev)(zimbraMailDeliveryAddress=*@customer.dev))(!(zimbraIsSystemAccount=TRUE)))'
+    get '/accounts/', raw_ldap_filter: ldap_filter, zimbraIsAdminAccount: 'TRUE'
+    result = JSON.parse(last_response.body)
+    assert(result.first['name'].match(/admin/), 'Failed search')
+  end
+
   def test_account_get_with_name
     get "/accounts/#{@account.name}"
     assert_equal(@account.id, JSON.parse(last_response.body)['id'])
