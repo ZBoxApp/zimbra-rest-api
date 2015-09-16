@@ -22,7 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Search
+You can search al the objects like:
+
+```
+get '/accounts/', zimbraIsAdminAccount: 'TRUE'
+```
+
+or
+
+```
+ldap_filter = '(|(zimbraMailDeliveryAddress=*@zboxapp.dev)(zimbraMailDeliveryAddress=*@customer1.dev))'
+get '/accounts/', raw_ldap_filter: ldap_filter
+```
 
 ## Development
 

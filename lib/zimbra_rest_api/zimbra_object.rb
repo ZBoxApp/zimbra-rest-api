@@ -124,6 +124,7 @@ module ZimbraRestApi
       end
 
       def hash_to_ldap(query = {})
+        return query[:raw_ldap_filter] unless query[:raw_ldap_filter].nil?
         return '' if query.keys.size < 0
         result = query.map { |k, v| "(#{k}=#{v})" }.join('')
         return "(&#{result})" if query.keys.size > 1

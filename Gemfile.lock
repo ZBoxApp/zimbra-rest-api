@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/pbruna/ruby-zimbra.git
-  revision: e8505daa36f78623b31bc627c8c4b3e3000cda65
+  revision: 9a19815d1ac673d39909671678761efb3843307f
   branch: master
   specs:
     zimbra-soap-api (0.7.11)
@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    zimbra-rest-api (0.1.4)
+    zimbra-rest-api (0.1.5)
       httpclient (~> 2.6)
       sinatra (~> 1.4)
       sinatra-contrib (~> 1.4)

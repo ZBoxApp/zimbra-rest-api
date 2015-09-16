@@ -40,6 +40,15 @@ class AccountTest < Minitest::Test
     assert(result.first['name'].match(/admin/), 'Failed search')
   end
 
+  def test_account_search_should_work_with_raw_ldap_filter
+    ldap_filter = '(|(zimbraMailDeliveryAddress=*@zboxapp.dev)(zimbraMailDeliveryAddress=*@customer1.dev))'
+    get '/accounts/', raw_ldap_filter: ldap_filter
+    result = JSON.parse(last_response.body)
+    names = result.map {|a| a['name']}
+    assert(names.include?('admin@zboxapp.dev'), 'should include admin@zboxapp.dev')
+    assert(names.include?('user1@customer1.dev'), 'should include user1@customer1.dev')
+  end
+
   def test_account_get_with_name
     get "/accounts/#{@account.name}"
     assert_equal(@account.id, JSON.parse(last_response.body)['id'])
