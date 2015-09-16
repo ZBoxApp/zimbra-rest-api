@@ -41,7 +41,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_account_search_should_work_with_raw_ldap_filter
-    ldap_filter = '(|(zimbraMailDeliveryAddress=*@zboxapp.dev)(zimbraMailDeliveryAddress=*@customer1.dev))'
+    ldap_filter = '(&(|(zimbraMailDeliveryAddress=*@zboxapp.dev)(zimbraMailDeliveryAddress=*@customer1.dev))(!(zimbraIsSystemAccount=TRUE)))'
     get '/accounts/', raw_ldap_filter: ldap_filter
     result = JSON.parse(last_response.body)
     names = result.map {|a| a['name']}
