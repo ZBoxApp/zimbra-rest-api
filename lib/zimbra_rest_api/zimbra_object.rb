@@ -101,26 +101,25 @@ module ZimbraRestApi
       def search(object, query)
         zimbra_type = object.name.split(/::/).last.downcase
         search_hash = build_search_hash(query)
-        Zimbra::Directory.search(search_hash[:query],
-                                 type: zimbra_type,
-                                 domain: search_hash[:domain],
-                                 **search_hash[:sorting])
+        search_hash.merge!(type: zimbra_type)
+        query = search_hash.delete(:query)
+        Zimbra::Directory.search(query, search_hash)
       end
 
       def build_search_hash(query = {})
-        {
+        sort_options_hash = get_sort_ops(query)
+        query_hash = {
           domain: query.delete('domain') || query.delete(:domain),
-          sorting: get_sort_ops(query),
           query: hash_to_ldap(query)
         }
-
+        query_hash.merge(sort_options_hash)
       end
 
       def get_sort_ops(query)
-        page = query.delete(:page) || 1
-        limit = query.delete(:per_page) || 25
+        page = query.delete('page') || 1
+        limit = query.delete('per_page') || 25
         offset = page.to_i <= 1 ? 0 : ((page.to_i - 1) * limit.to_i)
-        { limit: limit.to_i, offset: offset.to_i }
+        {limit: limit.to_i, offset: offset.to_i}
       end
 
       def hash_to_ldap(query = {})

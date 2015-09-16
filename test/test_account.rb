@@ -49,6 +49,12 @@ class AccountTest < Minitest::Test
     assert(names.include?('user1@customer1.dev'), 'should include user1@customer1.dev')
   end
 
+  def test_sorting_options
+    get "/accounts/", zimbraMailDeliveryAddress: '*@customer.dev', per_page: 1000
+    result = JSON.parse(last_response.body)
+    assert result.size > 25, 'result should be > 25'
+  end
+
   def test_account_get_with_name
     get "/accounts/#{@account.name}"
     assert_equal(@account.id, JSON.parse(last_response.body)['id'])
