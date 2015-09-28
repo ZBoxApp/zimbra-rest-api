@@ -7,6 +7,7 @@ module ZimbraRestApi
       total = object.count(params)
       set_pagination_headers(total[:count], params)
       result.nil? ? json({}) : json(result)
+      json({})
     end
 
     def resource_show(resource, id)
