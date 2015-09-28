@@ -71,9 +71,9 @@ module ZimbraRestApi
     end
 
     def set_pagination_headers(total, pagination)
-      headers('X-Total' => total,
-              'X-Page' => (pagination['page'] || 1),
-              'X-Per-Page' => (pagination['per_page'] || 25)
+      headers('X-Total' => total.to_s,
+              'X-Page' => (pagination['page'] || 1).to_s,
+              'X-Per-Page' => (pagination['per_page'] || 25).to_s
               )
     end
 
