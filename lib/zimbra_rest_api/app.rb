@@ -11,9 +11,9 @@ module ZimbraRestApi
     RESOURCES = %w(domain account distribution_list cos)
 
     before do
-      # if ZimbraRestApi.api_id
-      #   error 401 unless env['HTTP_X_API_TOKEN'] == ZimbraRestApi.api_id
-      # end
+      if ZimbraRestApi.api_id
+        error 401 unless env['HTTP_X_API_TOKEN'] == ZimbraRestApi.api_id
+      end
       ZimbraRestApi.authenticate!
     end
 
