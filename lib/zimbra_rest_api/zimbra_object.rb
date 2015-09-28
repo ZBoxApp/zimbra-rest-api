@@ -75,6 +75,20 @@ module ZimbraRestApi
         end
       end
 
+      def count(query = {}, object = nil)
+        query ||= {}
+        query[:count_only] = true
+        zimbra_object = get_zimbra_object(object)
+        search(zimbra_object, query)
+      end
+
+      def create(params = {}, object = nil)
+        zimbra_object = get_zimbra_object(object)
+        name = params.delete('name')
+        result = zimbra_object.create(name, params)
+        new(result)
+      end
+
       def find(query, object = nil)
         zimbra_object = get_zimbra_object(object)
         if UUID.validate(query)
@@ -83,13 +97,6 @@ module ZimbraRestApi
           result = zimbra_object.find_by_name(query)
         end
         result.nil? ? nil : new(result)
-      end
-
-      def create(params = {}, object = nil)
-        zimbra_object = get_zimbra_object(object)
-        name = params.delete('name')
-        result = zimbra_object.create(name, params)
-        new(result)
       end
 
       def get_zimbra_object(object)
@@ -112,7 +119,8 @@ module ZimbraRestApi
           domain: query.delete('domain') || query.delete(:domain),
           query: hash_to_ldap(query)
         }
-        query_hash.merge(sort_options_hash)
+        count_only = query.delete('count_only') || query.delete(:count_only)
+        query_hash.merge(sort_options_hash).merge(count_only: count_only)
       end
 
       def get_sort_ops(query)

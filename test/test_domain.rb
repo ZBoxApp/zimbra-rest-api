@@ -136,4 +136,21 @@ class DomainTest < Minitest::Test
     assert_equal(1, result.size)
   end
 
+  def test_all_should_return_headers_info_for_pagination
+    get '/domains/'
+    headers = last_response.headers
+    assert(headers['X-Total'], 'should return total header')
+    assert(headers['X-Page'], 'should return page header')
+    assert(headers['X-Per-Page'], 'should return per page header')
+  end
+
+  def test_should_return_pagination_0_if_search_fail_or_invalid
+    get '/domains/', name: 'kdmalkmdla.com'
+    headers = last_response.headers
+    assert(headers['X-Total'], 'should return total header')
+    assert_equal(0, headers['X-Total'], 'should be 0')
+    assert(headers['X-Page'], 'should return page header')
+    assert(headers['X-Per-Page'], 'should return per page header')
+  end
+
 end

@@ -54,5 +54,13 @@ class ZimbraObjectTest < Minitest::Test
     assert exception.message
   end
 
+  def test_count_should_return_a_hash_with_counters
+    query = { domain: 'customer.dev' }
+    result = ZimbraObject.count(query, 'Account')
+    assert_equal(Hash, result.class, 'should be a hash')
+    assert(result[:count], 'should be a count field')
+    assert(result[:count].is_a?(Fixnum), 'count should be a number')
+  end
+
 
 end

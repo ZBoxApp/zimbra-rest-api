@@ -4,6 +4,8 @@ module ZimbraRestApi
     def resource_index(resource, params = {})
       object = object_factory(resource)
       result = object.all(params)
+      total = object.count(params)
+      set_pagination_headers(total[:count], params)
       result.nil? ? json({}) : json(result)
     end
 
@@ -66,6 +68,13 @@ module ZimbraRestApi
       rescue Exception => e
         json({ errors: [ e.message ]})
       end
+    end
+
+    def set_pagination_headers(total, pagination)
+      headers('X-Total' => total,
+              'X-Page' => (pagination['page'] || 1),
+              'X-Per-Page' => (pagination['per_page'] || 25)
+              )
     end
 
     def object_factory(resource)
