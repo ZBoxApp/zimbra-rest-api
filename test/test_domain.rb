@@ -141,6 +141,7 @@ class DomainTest < Minitest::Test
     get '/domains/'
     headers = last_response.headers
     assert(headers['X-Total'], 'should return total header')
+    assert(headers['X-Total'].to_i > 0, 'total should be greater than 0')
     assert(headers['X-Page'], 'should return page header')
     assert(headers['X-Per-Page'], 'should return per page header')
   end

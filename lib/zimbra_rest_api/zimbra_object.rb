@@ -79,7 +79,8 @@ module ZimbraRestApi
         query ||= {}
         query[:count_only] = true
         zimbra_object = get_zimbra_object(object)
-        search(zimbra_object, query)
+        result = search(zimbra_object, query)
+        !result.nil? ? result : { count: 0 }
       end
 
       def create(params = {}, object = nil)
@@ -114,12 +115,13 @@ module ZimbraRestApi
       end
 
       def build_search_hash(query = {})
-        sort_options_hash = get_sort_ops(query)
+        query_dup = query.clone
+        sort_options_hash = get_sort_ops(query_dup)
+        count_only = query_dup.delete('count_only') || query_dup.delete(:count_only)
         query_hash = {
-          domain: query.delete('domain') || query.delete(:domain),
-          query: hash_to_ldap(query)
+          domain: query_dup.delete('domain') || query_dup.delete(:domain),
+          query: hash_to_ldap(query_dup)
         }
-        count_only = query.delete('count_only') || query.delete(:count_only)
         query_hash.merge(sort_options_hash).merge(count_only: count_only)
       end
 
