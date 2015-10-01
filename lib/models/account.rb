@@ -2,6 +2,10 @@
 module ZimbraRestApi
   class Account < ZimbraBase
 
+    def mailbox
+      zmobject.mailbox
+    end
+
     def self.create(params = {})
       name = params.delete('name')
       password = params.delete('password')

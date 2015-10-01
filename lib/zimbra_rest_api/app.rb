@@ -83,6 +83,14 @@ module ZimbraRestApi
       json distribution_lists
     end
 
+    # Accounts custom routes
+    # Account mailbox info
+    get '/accounts/:id/mailbox' do
+      account = Account.find(params['id'])
+      mailbox_info = account.mailbox
+      json mailbox_info
+    end
+
     run! if app_file == $PROGRAM_NAME
   end
 end

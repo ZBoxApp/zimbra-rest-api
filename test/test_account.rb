@@ -157,4 +157,12 @@ class AccountTest < Minitest::Test
     assert(headers['X-Per-Page'], 'should return per page header')
   end
 
+  def test_mailbox_path_should_return_size_and_store_id
+    get "/accounts/#{@account.id}/mailbox"
+    assert last_response.ok?, 'wrong response'
+    result = JSON.parse(last_response.body)
+    assert result['size'], 'no size'
+    assert result['store_id'], 'no store_id'
+  end
+
 end
