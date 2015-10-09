@@ -91,6 +91,28 @@ module ZimbraRestApi
       json mailbox_info
     end
 
+    post '/accounts/:id/add_alias' do
+      account = Account.find(params['id'])
+      alias_name = request.params['alias_name']
+      if account.add_alias(alias_name)
+        account.zimbra_attrs['zimbraMailAlias'] << alias_name
+        json account
+      else
+        json errors: ["Alias not added for #{account.name}"]
+      end
+    end
+
+    post '/accounts/:id/remove_alias' do
+      account = Account.find(params['id'])
+      alias_name = request.params['alias_name']
+      if account.remove_alias(alias_name)
+        account.zimbra_attrs['zimbraMailAlias'].delete alias_name
+        json account
+      else
+        json errors: ["Alias no removed for #{account.name}"]
+      end
+    end
+
     run! if app_file == $PROGRAM_NAME
   end
 end

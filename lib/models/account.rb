@@ -2,8 +2,16 @@
 module ZimbraRestApi
   class Account < ZimbraBase
 
+    def add_alias(alias_name)
+      zmobject.add_alias(alias_name)
+    end
+
     def mailbox
       zmobject.mailbox
+    end
+
+    def remove_alias(alias_name)
+      zmobject.remove_alias(alias_name)
     end
 
     def self.create(params = {})

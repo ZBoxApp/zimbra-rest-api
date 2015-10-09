@@ -165,4 +165,23 @@ class AccountTest < Minitest::Test
     assert result['store_id'], 'no store_id'
   end
 
+  def test_add_account_alias
+    alias_name = Time.new.strftime('%Y%m%d%H%M%S') + '@itlinux.cl'
+    post "/accounts/#{@account.id}/add_alias", alias_name: alias_name
+    assert last_response.ok?
+    result = JSON.parse(last_response.body)
+    aliases_array = result['zimbra_attrs']['zimbraMailAlias']
+    assert(aliases_array.include?(alias_name), 'No Alias')
+  end
+
+  def test_remove_add_account_alias
+    alias_name = Time.new.strftime('%Y%m%d%H%M%S') + '@itlinux.cl'
+    post "/accounts/#{@account.id}/add_alias", alias_name: alias_name
+    assert last_response.ok?
+    post "/accounts/#{@account.id}/remove_alias", alias_name: alias_name
+    result = JSON.parse(last_response.body)
+    aliases_array = result['zimbra_attrs']['zimbraMailAlias']
+    assert(!aliases_array.include?(alias_name), 'should not have Alias')
+  end
+
 end
