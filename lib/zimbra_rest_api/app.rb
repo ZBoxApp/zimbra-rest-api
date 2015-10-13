@@ -95,8 +95,7 @@ module ZimbraRestApi
       account = Account.find(params['id'])
       alias_name = request.params['alias_name']
       if account.add_alias(alias_name)
-        account.zimbra_attrs['zimbraMailAlias'] << alias_name
-        json account
+        json alias_name: alias_name
       else
         json errors: ["Alias not added for #{account.name}"]
       end
@@ -106,8 +105,7 @@ module ZimbraRestApi
       account = Account.find(params['id'])
       alias_name = request.params['alias_name']
       if account.remove_alias(alias_name)
-        account.zimbra_attrs['zimbraMailAlias'].delete alias_name
-        json account
+        json alias_name: alias_name
       else
         json errors: ["Alias no removed for #{account.name}"]
       end

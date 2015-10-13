@@ -170,8 +170,7 @@ class AccountTest < Minitest::Test
     post "/accounts/#{@account.id}/add_alias", alias_name: alias_name
     assert last_response.ok?
     result = JSON.parse(last_response.body)
-    aliases_array = result['zimbra_attrs']['zimbraMailAlias']
-    assert(aliases_array.include?(alias_name), 'No Alias')
+    assert_equal(alias_name, result['alias_name'], 'No Alias')
   end
 
   def test_remove_add_account_alias
@@ -180,8 +179,7 @@ class AccountTest < Minitest::Test
     assert last_response.ok?
     post "/accounts/#{@account.id}/remove_alias", alias_name: alias_name
     result = JSON.parse(last_response.body)
-    aliases_array = result['zimbra_attrs']['zimbraMailAlias']
-    assert(!aliases_array.include?(alias_name), 'should not have Alias')
+    assert_equal(alias_name, result['alias_name'], 'No Alias')
   end
 
 end
