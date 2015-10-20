@@ -6,6 +6,10 @@ module ZimbraRestApi
       zmobject.add_alias(alias_name)
     end
 
+    def delegated_auth_token
+      zmobject.delegated_auth_token
+    end
+
     def mailbox
       zmobject.mailbox
     end

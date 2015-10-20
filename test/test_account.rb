@@ -182,4 +182,11 @@ class AccountTest < Minitest::Test
     assert_equal(alias_name, result['alias_name'], 'No Alias')
   end
 
+  def test_get_delegated_token
+    get "/accounts/#{@account.id}/delegated_token"
+    assert last_response.ok?
+    result = JSON.parse(last_response.body)
+    assert(/[0-9]_.*/.match result['delegated_token'])
+  end
+
 end

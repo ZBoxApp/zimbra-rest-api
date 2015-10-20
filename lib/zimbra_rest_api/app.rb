@@ -111,6 +111,12 @@ module ZimbraRestApi
       end
     end
 
+    get '/accounts/:id/delegated_token' do
+      account = Account.find(params['id'])
+      token = account.delegated_auth_token
+      json delegated_token: token
+    end
+
     run! if app_file == $PROGRAM_NAME
   end
 end
