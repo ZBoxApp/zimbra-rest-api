@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/pbruna/ruby-zimbra.git
-  revision: ef2d1f09523f8d74623017dbcc758d19e7987467
+  revision: 87cb1301f7d997d9c81c6e5d410d4cc0529cbd37
   branch: master
   specs:
-    zimbra-soap-api (0.7.18)
+    zimbra-soap-api (0.7.19)
       curb
       handsoap
       nokogiri
@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    zimbra-rest-api (0.1.18)
+    zimbra-rest-api (0.1.19)
       httpclient (~> 2.6)
       sinatra (~> 1.4)
       sinatra-contrib (~> 1.4)
@@ -39,7 +39,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     multi_json (1.11.2)
-    nokogiri (1.6.6.2)
+    nokogiri (1.6.6.3)
       mini_portile (~> 0.6.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -79,3 +79,6 @@ DEPENDENCIES
   rake (~> 10.0)
   zimbra-rest-api!
   zimbra-soap-api!
+
+BUNDLED WITH
+   1.10.6

@@ -7,7 +7,7 @@ require 'zimbra_rest_api'
 ZimbraRestApi.zimbra_soap_url = ENV['zimbra_soap_url']
 ZimbraRestApi.zimbra_admin_user = ENV['zimbra_admin_user']
 ZimbraRestApi.zimbra_admin_password = ENV['zimbra_admin_password']
-ZimbraRestApi.api_id = "12345678"
+#ZimbraRestApi.api_id = "12345678"
 
 ####### END CONFIGURATION ############################
 
