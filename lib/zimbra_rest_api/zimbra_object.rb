@@ -134,6 +134,7 @@ module ZimbraRestApi
         offset = page.to_i <= 1 ? 0 : ((page.to_i - 1) * limit.to_i)
         ops = {limit: limit.to_i, offset: offset.to_i }
         ops.merge!(max_results: query['max_results'].to_i) if query['max_results']
+        ops.merge!(attrs: query['attrs']) if query['attrs']
         ops
       end
 
