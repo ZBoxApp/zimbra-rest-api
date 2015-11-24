@@ -21,9 +21,6 @@ class DomainTest < Minitest::Test
 
   def test_domain_all
     get '/domains/'
-    headers = last_response.headers
-    assert last_response.ok?
-    get '/domains'
     assert last_response.ok?
   end
 
@@ -51,6 +48,15 @@ class DomainTest < Minitest::Test
 
   def test_domain_count_accounts_should_return_the_results
     get '/domains/itlinux.cl/count_accounts'
+    result = JSON.parse(last_response.body)
+    result.keys.each do |cosid|
+      assert UUID.validate cosid
+    end
+  end
+
+  def test_domain_count_accounts_with_domain_id_should_return_the_results
+    domain = Zimbra::Domain.find_by_name('itlinux.cl')
+    get "/domains/#{domain.id}/count_accounts"
     result = JSON.parse(last_response.body)
     result.keys.each do |cosid|
       assert UUID.validate cosid

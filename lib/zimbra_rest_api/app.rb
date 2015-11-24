@@ -28,6 +28,11 @@ module ZimbraRestApi
         resource_index(resource, params)
       end
 
+      # Count route
+      get "/#{resource.plural}/count" do
+        resource_count(resource, request.params)
+      end
+
       # Show route
       get "/#{resource.plural}/:id/?" do
         resource_show(resource, params['id'])
@@ -64,31 +69,43 @@ module ZimbraRestApi
 
     # Domain count_accounts
     get '/domains/:id/count_accounts' do
-      domain = Domain.find(params['id'])
-      json domain.count_accounts
+      # We need the id, so we lookup the domain if we do not get an UUID
+      if UUID.validate(params['id'])
+        json Domain.count_accounts(params['id'])
+      else
+        domain = Domain.find(params['id'])
+        json domain.count_accounts
+      end
     end
 
     # Domain accounts
     get '/domains/:id/accounts' do
-      domain = Domain.find(params['id'])
-      accounts = Account.all(domain: domain.name)
-      json accounts
+      # Only lookup domain if id is an UUID
+      domain = params['id']
+      domain = Domain.find(params['id']) if UUID.validate(params['id'])
+      query = request.params.merge(domain: domain.to_s)
+      resource_index('account', query)
     end
 
     # Domain Distribution Lists
     get '/domains/:id/distribution_lists' do
-      domain = Domain.find(params['id'])
-      query = request.params.merge({ domain: domain.name })
-      distribution_lists = DistributionList.all(query)
-      json distribution_lists
+      # Only lookup domain if id is an UUID
+      domain = params['id']
+      domain = Domain.find(params['id']) if UUID.validate(params['id'])
+      query = request.params.merge(domain: domain.to_s)
+      resource_index('distribution_list', query)
     end
 
     # Accounts custom routes
     # Account mailbox info
     get '/accounts/:id/mailbox' do
-      account = Account.find(params['id'])
-      mailbox_info = account.mailbox
-      json mailbox_info
+      # We need the id, so we lookup the account if we do not get an UUID
+      if UUID.validate(params['id'])
+        json Account.mailbox(params['id'])
+      else
+        account = Account.find(params['id'])
+        json account.mailbox
+      end
     end
 
     post '/accounts/:id/add_alias' do

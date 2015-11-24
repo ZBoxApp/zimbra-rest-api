@@ -25,6 +25,10 @@ module ZimbraRestApi
       new(result)
     end
 
+    def self.mailbox(account_id)
+      Zimbra::Account.mailbox account_id
+    end
+
     def set_password(new_password)
       zmobject.set_password new_password
     end

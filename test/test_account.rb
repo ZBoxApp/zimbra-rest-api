@@ -11,10 +11,6 @@ class AccountTest < Minitest::Test
     ZimbraRestApi::App
   end
 
-  def setup
-    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
-  end
-
   def teardown
     @tmp_account = Zimbra::Account.find_by_name('tmp@zbox.cl')
     @tmp_account.delete if @tmp_account
@@ -23,13 +19,12 @@ class AccountTest < Minitest::Test
   def test_account_all
     get '/accounts/'
     assert last_response.ok?
-    get '/accounts'
-    assert last_response.ok?
     result = JSON.parse(last_response.body)
     assert(result.size > 0, 'Should be an array with elements')
   end
 
   def test_get_account_with_id
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     get "/accounts/#{@account.id}"
     assert_equal(@account.name, JSON.parse(last_response.body)['name'])
   end
@@ -50,7 +45,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_sorting_options
-    get "/accounts/", zimbraMailDeliveryAddress: '*@customer.dev', per_page: 1000
+    get '/accounts/', zimbraMailDeliveryAddress: '*@customer.dev', per_page: 200
     result = JSON.parse(last_response.body)
     assert result.size > 25, 'result should be > 25'
   end
@@ -63,13 +58,14 @@ class AccountTest < Minitest::Test
   end
 
   def test_negative_search
-    get "/accounts/", zimbraMailDeliveryAddress: '*admin*', per_page: 1000, inverse_filter: true
+    get "/accounts/", zimbraMailDeliveryAddress: '*admin*', inverse_filter: true
     result = JSON.parse(last_response.body)
     names = result.map {|a| a['name']}
     assert(!names.include?('admin@zboxapp.dev'), 'should not include admin@zboxapp.dev')
   end
 
   def test_account_get_with_name
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     get "/accounts/#{@account.name}"
     assert_equal(@account.id, JSON.parse(last_response.body)['id'])
   end
@@ -112,7 +108,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_update_account_name_should_work
-    account = Zimbra::Account.create('tmp1@zbox.cl', '12345678')
+    Zimbra::Account.create('tmp1@zbox.cl', '12345678')
     put '/accounts/tmp1@zbox.cl/', {'name' => 'tmp@zbox.cl'}
     result = JSON.parse(last_response.body)
     assert_equal 'tmp@zbox.cl', result['name']
@@ -131,6 +127,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_update_password_should_work
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     password = Time.new.strftime('%Y%m%d%H%M%S')
     put "/accounts/#{@account.name}/", {'password' => password}
     assert_equal 200, last_response.status
@@ -149,15 +146,15 @@ class AccountTest < Minitest::Test
   end
 
   def test_should_return_pagination_0_if_search_fail_or_invalid
-    get '/accounts', domain: 'kdmalkmdla.com'
+    get '/accounts', domain: 'customer.dev'
     headers = last_response.headers
     assert(headers['X-Total'], 'should return total header')
-    assert_equal("0", headers['X-Total'], 'should be 0')
     assert(headers['X-Page'], 'should return page header')
     assert(headers['X-Per-Page'], 'should return per page header')
   end
 
   def test_mailbox_path_should_return_size_and_store_id
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     get "/accounts/#{@account.id}/mailbox"
     assert last_response.ok?, 'wrong response'
     result = JSON.parse(last_response.body)
@@ -165,7 +162,18 @@ class AccountTest < Minitest::Test
     assert result['store_id'], 'no store_id'
   end
 
+  def test_mailbox_with_name_path_should_return_size_and_store_id
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
+    get "/accounts/#{@account.name}/mailbox"
+    assert last_response.ok?, 'wrong response'
+    result = JSON.parse(last_response.body)
+    assert result['size'], 'no size'
+    assert result['store_id'], 'no store_id'
+  end
+
+
   def test_add_account_alias
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     alias_name = Time.new.strftime('%Y%m%d%H%M%S') + '@itlinux.cl'
     post "/accounts/#{@account.id}/add_alias", alias_name: alias_name
     assert last_response.ok?
@@ -174,6 +182,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_remove_add_account_alias
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     alias_name = Time.new.strftime('%Y%m%d%H%M%S') + '@itlinux.cl'
     post "/accounts/#{@account.id}/add_alias", alias_name: alias_name
     assert last_response.ok?
@@ -183,10 +192,18 @@ class AccountTest < Minitest::Test
   end
 
   def test_get_delegated_token
+    @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
     get "/accounts/#{@account.id}/delegated_token"
     assert last_response.ok?
     result = JSON.parse(last_response.body)
     assert(/[0-9]_.*/.match result['delegated_token'])
+  end
+
+  def test_get_count_accounts_should_work
+    get '/accounts/count'
+    assert last_response.ok?
+    result = JSON.parse(last_response.body)
+    assert result['count'].is_a?(Fixnum)
   end
 
 end

@@ -67,17 +67,20 @@ module ZimbraRestApi
     module ClassMethods
 
       def all(query = {}, object = nil)
-        query ||= {}
         zimbra_object = get_zimbra_object(object)
-        results = search(zimbra_object, query)
-        results.nil? ? nil : results.map do |o|
+        search_result = search(zimbra_object, query)
+        return nil if search_result.nil?
+        raw_els = search_result[:results]
+        search_result[:results] = raw_els.nil? ? [] : raw_els.map do |o|
           new(o)
         end
+        search_result
       end
 
       def count(query = {}, object = nil)
         query ||= {}
         query[:count_only] = true
+        query['per_page'] = 0
         zimbra_object = get_zimbra_object(object)
         result = search(zimbra_object, query)
         !result.nil? ? result : { count: 0 }
@@ -126,9 +129,9 @@ module ZimbraRestApi
       end
 
       def get_sort_ops(query)
-        page = query.delete('page') || 1
-        limit = query.delete('per_page') || 25
-        max_results = query.delete('max_results') || 20_000
+        page = query.delete('page') || 0
+        limit = query.delete('per_page') || 0
+        max_results = query.delete('max_results') || 0
         offset = page.to_i <= 1 ? 0 : ((page.to_i - 1) * limit.to_i)
         {limit: limit.to_i, offset: offset.to_i, max_results: max_results.to_i }
       end
