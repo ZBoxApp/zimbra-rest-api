@@ -131,9 +131,10 @@ module ZimbraRestApi
       def get_sort_ops(query)
         page = query.delete('page') || 0
         limit = query.delete('per_page') || 0
-        max_results = query.delete('max_results') || 0
         offset = page.to_i <= 1 ? 0 : ((page.to_i - 1) * limit.to_i)
-        {limit: limit.to_i, offset: offset.to_i, max_results: max_results.to_i }
+        ops = {limit: limit.to_i, offset: offset.to_i }
+        ops.merge!(max_results: query['max_results'].to_i) if query['max_results']
+        ops
       end
 
       def hash_to_ldap(query = {})
