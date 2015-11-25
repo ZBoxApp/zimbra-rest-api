@@ -16,6 +16,7 @@ module ZimbraRestApi
 
     def resource_count(resource, params = {})
       object = object_factory(resource)
+      params.merge!('max_results' => 0)
       json object.count(params)
     end
 

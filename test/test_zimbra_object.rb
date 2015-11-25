@@ -55,7 +55,7 @@ class ZimbraObjectTest < Minitest::Test
   end
 
   def test_count_should_return_a_hash_with_counters
-    query = { domain: 'customer.dev' }
+    query = { domain: 'customer2.dev' }
     result = ZimbraObject.count(query, 'Account')
     assert_equal(Hash, result.class, 'should be a hash')
     assert(result[:count], 'should be a count field')

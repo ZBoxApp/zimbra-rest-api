@@ -45,7 +45,7 @@ class AccountTest < Minitest::Test
   end
 
   def test_sorting_options
-    get '/accounts/', zimbraMailDeliveryAddress: '*@customer.dev', per_page: 200
+    get '/accounts/', zimbraMailDeliveryAddress: 'cos_basic*@customer.dev', per_page: 100
     result = JSON.parse(last_response.body)
     assert result.size > 25, 'result should be > 25'
   end
@@ -58,10 +58,10 @@ class AccountTest < Minitest::Test
   end
 
   def test_negative_search
-    get "/accounts/", zimbraMailDeliveryAddress: '*admin*', inverse_filter: true
+    get '/accounts/', zimbraMailDeliveryAddress: 'z*@customer.dev', inverse_filter: true
     result = JSON.parse(last_response.body)
     names = result.map {|a| a['name']}
-    assert(!names.include?('admin@zboxapp.dev'), 'should not include admin@zboxapp.dev')
+    assert(!names.include?('z2977@customer.dev'), 'should not include admin@zboxapp.dev')
   end
 
   def test_account_get_with_name
@@ -137,18 +137,10 @@ class AccountTest < Minitest::Test
   end
 
   def test_all_should_return_headers_info_for_pagination
-    get '/accounts/'
+    get '/accounts/', zimbraMailDeliveryAddress: 'cos_basic*@customer.dev'
     headers = last_response.headers
     assert(headers['X-Total'], 'should return total header')
     assert(headers['X-Total'].to_i > 0, 'total should be greater than 0')
-    assert(headers['X-Page'], 'should return page header')
-    assert(headers['X-Per-Page'], 'should return per page header')
-  end
-
-  def test_should_return_pagination_0_if_search_fail_or_invalid
-    get '/accounts', domain: 'customer.dev'
-    headers = last_response.headers
-    assert(headers['X-Total'], 'should return total header')
     assert(headers['X-Page'], 'should return page header')
     assert(headers['X-Per-Page'], 'should return per page header')
   end

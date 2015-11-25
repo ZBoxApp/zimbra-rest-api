@@ -20,11 +20,16 @@ module ZimbraRestApi
   class << self
     attr_accessor :zimbra_admin_user, :zimbra_admin_password
     attr_accessor :api_id
+    attr_writer :zimbra_max_results
     attr_reader :zimbra_soap_url
 
     def authenticate!
       Zimbra.admin_api_url = zimbra_soap_url
       Zimbra.login(zimbra_admin_user, zimbra_admin_password)
+    end
+
+    def zimbra_max_results
+      @zimbra_max_results ||= 200
     end
 
     def zimbra_soap_url=(url)

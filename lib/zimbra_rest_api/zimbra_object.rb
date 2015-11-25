@@ -136,7 +136,7 @@ module ZimbraRestApi
       def get_sort_ops(query)
         page = query.delete('page') || 0
         limit = query.delete('per_page') || 0
-        max_results = query.delete('max_results') || nil
+        max_results = query.delete('max_results') || ZimbraRestApi.zimbra_max_results
         attrs = query.delete('attrs') || nil
         offset = page.to_i <= 1 ? 0 : ((page.to_i - 1) * limit.to_i)
         { limit: limit.to_i,
