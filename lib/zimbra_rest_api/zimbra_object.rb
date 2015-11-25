@@ -105,7 +105,7 @@ module ZimbraRestApi
 
       def get_zimbra_object(object)
         object ||= self.is_a?(Class) ? name : self.class.name
-        object.gsub!(/ZimbraRestApi::/,'')
+        object.gsub!(/ZimbraRestApi::/, '')
         "Zimbra::#{object.camelize}".constantize
       end
 
@@ -114,7 +114,12 @@ module ZimbraRestApi
         search_hash = build_search_hash(query)
         search_hash.merge!(type: zimbra_type)
         query = search_hash.delete(:query)
-        Zimbra::Directory.search(query, search_hash)
+        begin
+          Zimbra::Directory.search(query, search_hash)
+        rescue Zimbra::HandsoapErrors::SOAPFault => e
+          msg = 'number of results exceeded the limit: too many search results returned'
+          raise ZimbraRestApi::TO_MANY_RESULTS if e.message == msg
+        end
       end
 
       def build_search_hash(query = {})

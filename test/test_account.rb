@@ -206,4 +206,11 @@ class AccountTest < Minitest::Test
     assert result['count'].is_a?(Fixnum)
   end
 
+  def test_json_error_if_to_many_results
+    get '/accounts/', max_results: 2
+    assert last_response.ok?, 'response not ok'
+    result = JSON.parse(last_response.body)
+    assert result['errors']['ZimbraRestApi::TO_MANY_RESULTS']
+  end
+
 end

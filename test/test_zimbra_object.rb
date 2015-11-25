@@ -62,5 +62,12 @@ class ZimbraObjectTest < Minitest::Test
     assert(result[:count].is_a?(Fixnum), 'count should be a number')
   end
 
+  def test_should_raise_to_many_search_results
+    assert_raises(ZimbraRestApi::TO_MANY_RESULTS) do
+      query = { 'mail' => '*.*', 'max_results' => 2 }
+      ZimbraObject.all(query, 'ZimbraRestApi::Account')
+    end
+  end
+
 
 end

@@ -3,10 +3,15 @@ module ZimbraRestApi
 
     def resource_index(resource, params = {})
       object = object_factory(resource)
-      result = object.all(params)
-      return json({}) if result.nil?
-      set_pagination_headers(result[:search_total], params)
-      json(result[:results])
+      begin
+        result = object.all(params)
+        return json({}) if result.nil?
+        set_pagination_headers(result[:search_total], params)
+        json(result[:results])
+      rescue ZimbraRestApi::TO_MANY_RESULTS => e
+        result = { 'errors' => { e.to_s => e.message } }
+        json result
+      end
     end
 
     def resource_count(resource, params = {})
