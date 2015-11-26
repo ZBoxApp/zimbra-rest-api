@@ -32,6 +32,7 @@ class AccountTest < Minitest::Test
   def test_account_search
     get '/accounts/', zimbraIsAdminAccount: 'TRUE'
     result = JSON.parse(last_response.body)
+    pp result
     assert(result.first['name'].match(/admin/), 'Failed search')
   end
 
