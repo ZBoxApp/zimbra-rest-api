@@ -26,7 +26,7 @@ module ZimbraRestApi
       def update_attributes(attributes)
         fail ArgumentError.new('Hash expected') unless attributes.is_a?Hash
         result = zmobject.modify(attributes)
-        self.class.find(self.id)
+        self.class.new(result) if result
       end
 
       def delete

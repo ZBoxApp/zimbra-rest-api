@@ -131,7 +131,8 @@ class DistributionListTest < Minitest::Test
     dl = Zimbra::DistributionList.create('tmplist@zbox.cl')
     put "/distribution_lists/#{dl.name}", {'members' => ['pp@gmail.com', 'pa@gmail.com']}
     result = JSON.parse(last_response.body)
-    assert result['members'].include?('pp@gmail.com')
+    dl = Zimbra::DistributionList.find_by_name('tmplist@zbox.cl')
+    assert dl.members.include?('pp@gmail.com')
   end
 
   def test_remove_memebers_should_remove_members
@@ -139,8 +140,8 @@ class DistributionListTest < Minitest::Test
     members = ['pbruna@gmail.com', 'pp@ppp.com']
     dl.modify_members(members)
     put "/distribution_lists/#{dl.name}", {'members' => ['3@gmail.com']}
-    result = JSON.parse(last_response.body)
-    assert result['members'].include?('3@gmail.com')
+    dl = Zimbra::DistributionList.find_by_name('tmplist@zbox.cl')
+    assert dl.members.include?('3@gmail.com')
   end
 
   def test_add_grant_should_work
