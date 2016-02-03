@@ -134,6 +134,30 @@ module ZimbraRestApi
       json delegated_token: token
     end
 
+    # DistributionList
+
+    # add_members
+    post '/distribution_lists/:id/add_members' do
+      dl = DistributionList.find params['id']
+      members = request.params['members']
+      begin
+        json DistributionList.new(dl.add_members members)
+      rescue Exception => e
+        json({ errors: [ e.message ]})
+      end
+    end
+
+    # add_members
+    post '/distribution_lists/:id/remove_members' do
+      dl = DistributionList.find params['id']
+      members = request.params['members']
+      begin
+        json DistributionList.new(dl.remove_members members)
+      rescue Exception => e
+        json({ errors: [ e.message ]})
+      end
+    end
+
     run! if app_file == $PROGRAM_NAME
   end
 end

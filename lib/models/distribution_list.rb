@@ -9,6 +9,14 @@ module ZimbraRestApi
       @domain_id = name.split(/@/)[1]
     end
 
+    def add_members(members)
+      zmobject.add_members(members)
+    end
+
+    def remove_members(members)
+      zmobject.remove_members(members)
+    end
+
     def modify_members(members)
       zmobject.modify_members members
     end

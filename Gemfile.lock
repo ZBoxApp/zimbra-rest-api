@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/pbruna/ruby-zimbra.git
-  revision: e8b379921ba0cbaab22d0af2eaab9eb94ab1c588
+  revision: 77115a2d1b8e9e0c8b47ce086d63efe78b76082f
   branch: master
   specs:
-    zimbra-soap-api (0.7.28)
+    zimbra-soap-api (0.7.29)
       curb
       handsoap
       nokogiri
@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    zimbra-rest-api (0.1.27)
+    zimbra-rest-api (0.1.3)
       httpclient (~> 2.6)
       sinatra (~> 1.4)
       sinatra-contrib (~> 1.4)
@@ -25,9 +25,9 @@ GEM
     backports (3.6.7)
     builder (3.2.2)
     coderay (1.1.0)
-    curb (0.8.8)
+    curb (0.9.1)
     handsoap (1.4.0)
-    httpclient (2.7.0.1)
+    httpclient (2.7.1)
     macaddr (1.7.1)
       systemu (~> 2.6.2)
     method_source (0.8.2)
@@ -39,7 +39,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     multi_json (1.11.2)
-    nokogiri (1.6.7)
+    nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -52,8 +52,8 @@ GEM
       rack (>= 1.0)
     rake (10.4.2)
     ruby-progressbar (1.7.5)
-    sinatra (1.4.6)
-      rack (~> 1.4)
+    sinatra (1.4.7)
+      rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
     sinatra-contrib (1.4.6)
@@ -65,7 +65,7 @@ GEM
       tilt (>= 1.3, < 3)
     slop (3.6.0)
     systemu (2.6.5)
-    tilt (2.0.1)
+    tilt (2.0.2)
     uuid (2.3.8)
       macaddr (~> 1.0)
 
