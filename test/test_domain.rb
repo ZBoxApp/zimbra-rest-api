@@ -161,4 +161,25 @@ class DomainTest < Minitest::Test
     assert(headers['X-Per-Page'], 'should return per page header')
   end
 
+  def test_add_domain_account_limits
+    basic_cos = Zimbra::Cos.find_by_name('basic').id
+    pro_cos = Zimbra::Cos.find_by_name('professional').id
+    domain_id = Zimbra::Domain.find_by_name('customer.dev').id
+    cos_quota_array = ["#{basic_cos}:20", "#{pro_cos}:40"]
+    post "/domains/#{domain_id}/accounts_quota", { total: 30, cos: cos_quota_array }
+    result = JSON.parse(last_response.body)
+    assert_equal(30, result['zimbra_attrs']['zimbraDomainMaxAccounts'].to_i)
+    cos_quota = result['zimbra_attrs']['zimbraDomainCOSMaxAccounts']
+    assert cos_quota.include?(cos_quota_array.sample)
+  end
+
+  def test_add_domain_account_limits_with_only_one_cos
+    pro_cos = Zimbra::Cos.find_by_name('professional').id
+    params = { total: 30, cos: ["#{pro_cos}:40"] }
+    post '/domains/customer.dev/accounts_quota', params
+    result = JSON.parse(last_response.body)
+    cos_quota = result['zimbra_attrs']['zimbraDomainCOSMaxAccounts']
+    assert cos_quota.include?("#{pro_cos}:40")
+  end
+
 end

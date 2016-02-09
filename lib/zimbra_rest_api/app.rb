@@ -96,6 +96,14 @@ module ZimbraRestApi
       resource_index('distribution_list', query)
     end
 
+    # Domain Add Accounts Quota
+    post '/domains/:id/accounts_quota' do
+      domain = Domain.find(params['id'])
+      max_accounts = request.params['total']
+      quota_by_cos = request.params['cos']
+      json domain.set_max_accounts(max_accounts, quota_by_cos)
+    end
+
     # Accounts custom routes
     # Account mailbox info
     get '/accounts/:id/mailbox' do

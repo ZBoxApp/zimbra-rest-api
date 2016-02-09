@@ -57,12 +57,6 @@ class AccountTest < Minitest::Test
     assert(result.first['name'].match(/admin/), 'Failed search')
   end
 
-  def test_negative_search
-    get '/accounts/', zimbraMailDeliveryAddress: 'z*@customer.dev', inverse_filter: true
-    result = JSON.parse(last_response.body)
-    names = result.map {|a| a['name']}
-    assert(!names.include?('z2977@customer.dev'), 'should not include admin@zboxapp.dev')
-  end
 
   def test_account_get_with_name
     @account = Zimbra::Account.find_by_name('pbruna@itlinux.cl')
