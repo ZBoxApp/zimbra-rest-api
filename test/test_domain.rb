@@ -84,6 +84,18 @@ class DomainTest < Minitest::Test
     assert_equal 'http://123456.com', result['zimbra_attrs']['zimbraSkinLogoURL'], 'zimbraSkinLogoURL does not match'
   end
 
+  def test_create_domain_with_max_account
+    params = {
+      name: 'tmp.com', zimbraSkinLogoURL: 'http://123456.com',
+      zimbraDomainCOSMaxAccounts: ["edb0491b-3429-4983-99b6-f986d5f95f80:10", "9485297c-f834-4592-883b-ca6d631bd2c1:10", "c2a48571-0f7d-4002-a613-d5f8f4e97f1c:15"],
+      zimbraDomainMaxAccounts: 35
+    }
+    post '/domains/', params
+    result = JSON.parse(last_response.body)
+    assert_equal 'tmp.com', result['name'], 'name does not match'
+    assert_equal 'http://123456.com', result['zimbra_attrs']['zimbraSkinLogoURL'], 'zimbraSkinLogoURL does not match'
+  end
+
   def test_create_with_wrong_info_should_return_error
     post '/domains/', {name: ' '}
     result = JSON.parse(last_response.body)

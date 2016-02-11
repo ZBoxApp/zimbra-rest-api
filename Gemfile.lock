@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/pbruna/ruby-zimbra.git
-  revision: 5aa740d1801a3433997edfc0f35a53ba5a74077f
+  revision: 51745b9ee8958d70c0a66abbf7c776628b853a45
   branch: master
   specs:
-    ruby-zimbra (0.7.32)
+    ruby-zimbra (0.7.33)
       curb
       handsoap
       nokogiri
