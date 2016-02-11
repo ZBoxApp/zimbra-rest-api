@@ -3,6 +3,18 @@ require 'sinatra/cookies'
 require 'sinatra/json'
 require 'logger'
 
+class Sinatra::Base
+  set :show_exceptions => false
+
+  error { |err|
+    Rack::Response.new(
+      [{'error' => err.message}.to_json],
+      500,
+      {'Content-type' => 'application/json'}
+    ).finish
+  }
+end
+
 # Doc placeholder
 module ZimbraRestApi
   class App < Sinatra::Base
