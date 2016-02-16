@@ -10,6 +10,14 @@ module ZimbraRestApi
       zmobject.delegated_auth_token
     end
 
+    def disable_archive
+      zmobject.disable_archive
+    end
+
+    def enable_archive(cos_id = nil, archive_name = nil)
+      zmobject.enable_archive(cos_id, archive_name)
+    end
+
     def mailbox
       zmobject.mailbox
     end

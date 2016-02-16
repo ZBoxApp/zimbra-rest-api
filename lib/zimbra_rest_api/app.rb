@@ -155,15 +155,20 @@ module ZimbraRestApi
     end
 
     # Enable account archive
+    # params => cos_id, archive_name
     post "/accounts/:id/archive/enable" do
       account = Account.find(params['id'])
-      result = account.enable_archive(request.params)
+      cos_id = request.params['cos_id']
+      archive_name = request.params['archive_name']
+      result = account.enable_archive(cos_id, archive_name)
+      json result: result
     end
 
     # Disable account archive
     post "/accounts/:id/archive/disable" do
       account = Account.find(params['id'])
       result = account.disable_archive
+      json result: result
     end
 
     # DistributionList
