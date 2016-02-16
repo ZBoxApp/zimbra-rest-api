@@ -154,6 +154,18 @@ module ZimbraRestApi
       json delegated_token: token
     end
 
+    # Enable account archive
+    post "/accounts/:id/archive/enable" do
+      account = Account.find(params['id'])
+      result = account.enable_archive(request.params)
+    end
+
+    # Disable account archive
+    post "/accounts/:id/archive/disable" do
+      account = Account.find(params['id'])
+      result = account.disable_archive
+    end
+
     # DistributionList
 
     # add_members
