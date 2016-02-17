@@ -22,6 +22,11 @@ module ZimbraRestApi
       zmobject.mailbox
     end
 
+    def memberships
+      results = zmobject.memberships
+      results.map { |r| {id: r.id, name: r.name, via: r.via} }
+    end
+
     def remove_alias(alias_name)
       zmobject.remove_alias(alias_name)
     end

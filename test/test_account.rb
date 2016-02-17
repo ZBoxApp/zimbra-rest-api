@@ -199,4 +199,21 @@ class AccountTest < Minitest::Test
     assert result['errors']['ZimbraRestApi::TO_MANY_RESULTS']
   end
 
+  def test_account_dls_membership
+    account = Zimbra::Account.find_by_name 'admin@zboxapp.dev'
+    get "/accounts/#{account.id}/memberships"
+    assert last_response.ok?, 'response not ok'
+    results = JSON.parse(last_response.body)
+    names = results.map { |r| r['name'] }
+    assert names.include?(%w(abierta@customer.dev restringida@customer.dev).sample)
+  end
+
+  def test_account_dls_membership_empty_array
+    account = Zimbra::Account.find_by_name 'pbruna@itlinux.cl'
+    get "/accounts/#{account.id}/memberships"
+    assert last_response.ok?, 'response not ok'
+    results = JSON.parse(last_response.body)
+    assert results.empty?
+  end
+
 end

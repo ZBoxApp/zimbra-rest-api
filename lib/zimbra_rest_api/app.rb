@@ -171,6 +171,13 @@ module ZimbraRestApi
       json result: result
     end
 
+    # Account DLs memberships
+    get '/accounts/:id/memberships' do
+      account = Account.find(params['id'])
+      memberships = account.memberships
+      json memberships
+    end
+
     # DistributionList
 
     # add_members
