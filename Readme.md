@@ -80,7 +80,7 @@ $ export zimbra_account_attrs='sn,givenName,displayName,zimbraMailAlias'
 Now Run the server:
 
 ```bash
-$ rackup
+$ bundle exec rackup
 ------------------------------------------------
 Starting server with the following configuration
 SOAP URL: https://127.0.0.1:7071/service/admin/soap
