@@ -143,7 +143,7 @@ you can pass query params, like:
 
 ```
 
-### Especial Requests
+### Special Requests
 
 #### Count Accounts by Domain
 Return the accounts grouped by `COS` for a given domain:
