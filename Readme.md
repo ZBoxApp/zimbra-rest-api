@@ -5,8 +5,8 @@ This is a [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) 
 other words it make possible to do this:
 
 ```bash
-$ curl 'http://localhost:9292/accounts/?domain=itlinux.cl' | jq '[.[] | { email: .name, name: .zimbra_attrs.givenName, lastname: .zimbra_attrs.sn, aliases: .zimbra_attrs.zimbraMailAlias}] '
-
+$ curl 'http://localhost:9292/accounts/?domain=itlinux.cl' | \
+  jq '[.[] | { email: .name, name: .zimbra_attrs.givenName, lastname: .zimbra_attrs.sn, aliases: .zimbra_attrs.zimbraMailAlias}] '
 ```
 
 **Note**: The example use `jq`, [a command-line JSON processor](https://stedolan.github.io/jq/)
