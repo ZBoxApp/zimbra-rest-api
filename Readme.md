@@ -5,30 +5,31 @@ This is a [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) 
 other words it make possible to do this:
 
 ```bash
-$ curl 'http://localhost:9292/accounts/?domain=itlinux.cl' | \
+$ curl 'http://localhost:9292/accounts/?domain=example.com' | \
   jq '[.[] | { email: .name, name: .zimbra_attrs.givenName, lastname: .zimbra_attrs.sn, aliases: .zimbra_attrs.zimbraMailAlias}] '
 ```
 
-**Note**: The example use `jq`, [a command-line JSON processor](https://stedolan.github.io/jq/)
+**Note**: The example uses `jq`, [a command-line JSON processor](https://stedolan.github.io/jq/)
 
-You get as result something like this:
+**You get `JSON` as result**. Why is this great? Because `JSON` is structured data that
+you can operate.
 
 ```json
 {
-    "email": "jpugenin@itlinux.cl",
+    "email": "jpugenin@example.com",
     "name": "Juan",
     "lastname": "Pugenin",
     "aliases": [
-      "juan@itlinux.cl",
-      "j.pugenin@itlinux.cl",
+      "juan@example.com",
+      "j.pugenin@example.com",
     ]
   },
   {
-    "email": "krriagada@itlinux.cl",
+    "email": "krriagada@example.com",
     "name": "Karen",
     "lastname": "Riagada",
     "aliases": [
-      "karen@itlinux.cl",
+      "karen@example.com",
       "karen@zboxapp.com",
     ]
   },
@@ -90,12 +91,12 @@ ADMIN USER: admin@zboxapp.dev
 [2016-02-26 13:11:48] INFO  WEBrick::HTTPServer#start: pid=52894 port=9292
 ```
 
-And now you can query it at port 9292
+And now you can query it at port `9292`.
 
 ### REST Routes
 
 You have the following `routes`: `/accounts/`, `/domains/` and `/distribution_lists/`. For all
-of them you have the same next actions:
+of them you have the same actions:
 
 * `POST`: For create
 * `GET`: Without `ID` returns all the objects, with an `ID` return the requested object
@@ -126,8 +127,8 @@ Some examples:
 ```
 
 ### Searching
-By default if you make a GET call without an ID, the server makes a `DirectorySearch`, so
-you can pass search parameters, like
+By default if you make a `GET` request without an `ID`, the server makes a `DirectorySearch`, so
+you can pass query params, like:
 
 ```
  # Search all Admins Accounts
@@ -148,7 +149,7 @@ you can pass search parameters, like
 Return the accounts grouped by `COS` for a given domain:
 
 ```
-$ curl http://localhost:9292/domains/itlinux.cl/count_accounts
+$ curl http://localhost:9292/domains/example.com/count_accounts
 {"0bdd20b6-9fca-4f3c-a0e3-b8aa045c2ae0":3,"0ae7404d-4851-5ea4-a2d5-620a19b32b72":9}
 ```
 
@@ -158,7 +159,7 @@ Limit the amount of accounts a Domain can have, in total and by `COS`
 ```
  # 20 accounts for the COS with ID 0bdd20b6-9fca-4f3c-a0e3-b8aa045c2ae0
  $ limit_by_cos = "0bdd20b6-9fca-4f3c-a0e3-b8aa045c2ae0:20"
- $ curl -X POST -d "total=30, cos=$limit_by_cos" http://localhost:9292/domains/itlinux.cl/accounts_quota
+ $ curl -X POST -d "total=30, cos=$limit_by_cos" http://localhost:9292/domains/example.com/accounts_quota
 ```
 
 #### Account Mailbox Info
