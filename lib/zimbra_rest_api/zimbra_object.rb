@@ -157,8 +157,9 @@ module ZimbraRestApi
       def zimbra_attrs_to_load=(array)
         klass_name = self.name.split(/::/)[1]
         klass = "Zimbra::#{klass_name}".constantize
+        array = [array].compact
         fail(ArgumentError, 'Must be an array') unless array.is_a?Array
-        klass.zimbra_attrs_to_load = array
+        klass.zimbra_attrs_to_load = array.flatten
       end
 
       def zimbra_attrs_to_load

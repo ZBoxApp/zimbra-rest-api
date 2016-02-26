@@ -9,6 +9,11 @@ ZimbraRestApi.zimbra_admin_user = ENV['zimbra_admin_user']
 ZimbraRestApi.zimbra_admin_password = ENV['zimbra_admin_password']
 #ZimbraRestApi.api_id = "12345678"
 
+
+ZimbraRestApi::Account.zimbra_attrs_to_load = ENV['zimbra_account_attrs'].to_s.split(',')
+ZimbraRestApi::Domain.zimbra_attrs_to_load = ENV['zimbra_domain_attrs'].to_s.split(',')
+ZimbraRestApi::DistributionList.zimbra_attrs_to_load = ENV['zimbra_dl_attrs'].to_s.split(',')
+
 ####### END CONFIGURATION ############################
 
 ###### DONT TOUCH FROM HERE ######################

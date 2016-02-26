@@ -1,25 +1,29 @@
-FROM phusion/passenger-ruby21:0.9.15
+FROM alpine
 MAINTAINER Patricio Bruna <pbruna@itlinux.cl>
 
-RUN rm -f /etc/service/nginx/down
-RUN rm -f /etc/service/sshd/down
-RUN mkdir -p /home/app/zimbra_pre_auth_router
-RUN mkdir -p /home/app/zimbra_pre_auth_router/tmp
+ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base git libxml2-dev
+ENV RUBY_PACKAGES ruby ruby-io-console ruby-bundler
+ENV LANG=en_US.UTF-8
 
-WORKDIR /home/app/zimbra_pre_auth_router
-ADD Gemfile /home/app/zimbra_pre_auth_router/
-ADD Gemfile.lock /home/app/zimbra_pre_auth_router/
+# Update and install all of the required packages.
+# At the end, remove the apk cache
+RUN apk update && \
+    apk upgrade && \
+    apk add $BUILD_PACKAGES && \
+    apk add $RUBY_PACKAGES && \
+    rm -rf /var/cache/apk/*
+
+RUN mkdir /usr/app
+WORKDIR /usr/app
+
+ADD . /usr/app
+COPY Gemfile /usr/app/
+COPY Gemfile.lock /usr/app/
+RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 
-ADD config/pbruna-ssh-key.pub /tmp/your_key
-RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && rm -f /tmp/your_key
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Aquí para que no moleste al cache
-ADD . /home/app/zimbra_pre_auth_router
-ADD config/zimbra_preauth_router-nginx.conf /etc/nginx/sites-enabled/default
-ADD config/nginx-env.conf /etc/nginx/main.d/nginx-env.conf
+ENTRYPOINT ["/usr/bin/bundle", "exec", "rackup"]
+CMD ["-p", "9292", "-o", "0.0.0.0"]
 
-RUN chown 9999:9999 -R /home/app/zimbra_pre_auth_router
-
-CMD ["/sbin/my_init"]
+EXPOSE 9292

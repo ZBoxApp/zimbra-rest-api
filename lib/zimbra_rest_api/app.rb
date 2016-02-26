@@ -5,6 +5,7 @@ require 'logger'
 
 class Sinatra::Base
   set :show_exceptions => false
+  enable :run
 
   error { |err|
     Rack::Response.new(
