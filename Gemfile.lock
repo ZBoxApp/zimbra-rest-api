@@ -11,7 +11,7 @@ GIT
 PATH
   remote: .
   specs:
-    zimbra-rest-api (0.1.8)
+    zimbra-rest-api (0.1.9)
       httpclient (~> 2.6)
       sinatra (~> 1.4)
       sinatra-contrib (~> 1.4)
