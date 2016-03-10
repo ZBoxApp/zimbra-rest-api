@@ -1,3 +1,10 @@
+### v 0.2.1
+
+#### Small changes
+
+* Readme
+* Only _force load_ **ACLs** for `Domains`
+
 ### v 0.1.9
 
 #### Get DLs memberships for an Account

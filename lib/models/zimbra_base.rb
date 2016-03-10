@@ -6,7 +6,7 @@ module ZimbraRestApi
 
     def initialize(zmobject)
       @zmobject = zmobject
-      @zmobject.acls # Force loading
+      @zmobject.acls if zmobject.is_a?(ZimbraRestApi::Domain) # Force loading
       instance_variables = get_instance_values(zmobject)
       set_instance_variables(instance_variables)
     end
